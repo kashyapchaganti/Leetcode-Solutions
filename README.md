@@ -1,3 +1,3 @@
 # Leetcode-Solutions :boom: :fire:
 
-- I love DSA & I also love teaching others the concepts of DSA. So, here is my way to giving back to the Computer Science Community! 😃
+- I love DSA & teaching others the concepts. So, here is my way of giving back to the Computer Science Community! 😃
