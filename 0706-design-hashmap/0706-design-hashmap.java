@@ -1,21 +1,28 @@
 class MyHashMap {
-    int m = (int)(1e9+7);
-    Bucket b;
+    int m = 2069;
+    List<Bucket> arr;
     public MyHashMap() {
-        b= new Bucket();
+        arr= new ArrayList<>();
+        for(int i=0;i<m;i++){
+            arr.add(new Bucket());
+        }
     }
     
     public void put(int key, int value) {
-        b.update(key,value);
+        int k= key%m;
+        arr.get(k).update(key,value);
         return ;
+        
     }
     
     public int get(int key) {
-        return b.get(key);
+         int k= key%m;
+        return arr.get(k).get(key);
     }
     
     public void remove(int key) {
-        b.remove(key);
+        int k= key%m;
+        arr.get(k).remove(key);
         return;
     }
 }
