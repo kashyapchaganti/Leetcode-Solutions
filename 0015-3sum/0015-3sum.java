@@ -6,27 +6,26 @@ class Solution {
         List<List<Integer>> ans = new ArrayList<>();
         for(int i=0;i<n;i++){
             if(i>0 && nums[i]==nums[i-1]) continue;
-            for(int j=i+1;j<n;j++){
-                if(j-1>=i+1 && nums[j]==nums[j-1] ){
-                    continue;
-                }
-                int c= nums[i]+nums[j];
-                int s =j+1, e= n-1;
-                // System.out.println(-c);
-                while(s<=e){
-                    int m = s+(e-s)/2;
-                    if(nums[m]==-c){
-                        
-                        ans.add(new ArrayList<>(Arrays.asList(nums[i],nums[j],-c)));
-                        break;
-                    }else{
-                        if(nums[m]>-c){
-                            e=m-1;
-                        }else{
-                            s=m+1;
-                        }
-                    }
+            int s= i+1, e= n-1;
+            while(s<e){
+                int y= nums[i] + nums[s]+nums[e];
+                if(y==0){
                     
+                    ans.add(new ArrayList<>(Arrays.asList(nums[i],nums[s],nums[e])));
+                    s++;
+                    e--;
+                    while(nums[s]==nums[s-1] && s<e){
+                        s++;
+                    }
+                    while(nums[e]==nums[e+1] && s<e){
+                        e--;
+                    }
+                }else{
+                    if(y>0){
+                        e--;
+                    }else{
+                        s++;
+                    }
                 }
             }
         }
