@@ -3,9 +3,13 @@ class Solution {
     public boolean wordBreak(String s, List<String> wordDict) {
         n= s.length();
         Boolean[] dp = new Boolean[n];
-        return check(dp,0,s,wordDict);
+        HashSet<String> m= new HashSet<>();
+        for(String x: wordDict){
+            m.add(x);
+        }
+        return check(dp,0,s,m);
     }
-    public boolean check(Boolean[] dp, int i, String s,List<String> wordDict ){
+    public boolean check(Boolean[] dp, int i, String s, HashSet<String>  wordDict ){
         if(i==n){
             return true;
         }
