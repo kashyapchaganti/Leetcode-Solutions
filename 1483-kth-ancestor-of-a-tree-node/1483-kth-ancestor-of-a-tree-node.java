@@ -1,7 +1,7 @@
 class TreeAncestor {
     List<List<Integer>> adj;
     int[][] dp;
-    int[] depth;
+    // int[] depth;
     public TreeAncestor(int n, int[] parent) {
         adj= new ArrayList<>();
         for(int i=0;i<n;i++){
@@ -15,20 +15,20 @@ class TreeAncestor {
         }
         dp= new int[n+1][21];
         binaryLifting(0,-1);
-        depth= new int[n+1];
-        check(0,-1);
+        // depth= new int[n+1];
+        // check(0,-1);
         
         
     }
-    public void check(int i, int p){
-        if(p!=-1){
-            depth[i]=depth[p]+1;
-        }
-        for(int x: adj.get(i)){
-            check(x,i);
-        }
+//     public void check(int i, int p){
+//         if(p!=-1){
+//             depth[i]=depth[p]+1;
+//         }
+//         for(int x: adj.get(i)){
+//             check(x,i);
+//         }
         
-    }
+//     }
     
     public int getKthAncestor(int node, int k) {
         int ans = query(node , k);
