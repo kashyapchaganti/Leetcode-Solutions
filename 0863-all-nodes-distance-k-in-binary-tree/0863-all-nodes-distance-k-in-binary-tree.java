@@ -1,45 +1,62 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Pair{
+    TreeNode r;
+    int c;
+    public Pair(TreeNode r, int c){
+        this.r=r;
+        this.c=c;
+    }
+}
 class Solution {
-    Map<Integer, List<Integer>> graph;
-    List<Integer> answer;
-    Set<Integer> visited;
-    
+    HashMap<TreeNode,List<Pair>>m;
     public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
-        graph = new HashMap<>();
-        buildGraph(root, null);
-        
-        answer = new ArrayList<>();
-        visited = new HashSet<>();
-        visited.add(target.val);
-        
-        dfs(target.val, 0, k);
-        
-        return answer;
-    }
-    
-    // Recursively build the undirected graph from the given binary tree.
-    private void buildGraph(TreeNode cur, TreeNode parent) {
-        if (cur != null && parent != null) {
-            graph.computeIfAbsent(cur.val, k -> new ArrayList<>()).add(parent.val);
-            graph.computeIfAbsent(parent.val, k -> new ArrayList<>()).add(cur.val);
-        }
-        if (cur.left != null) {
-            buildGraph(cur.left, cur);
-        }
-        if (cur.right != null) {
-            buildGraph(cur.right, cur);
-        }
-    }
-    
-    private void dfs(int cur, int distance, int k) {
-        if (distance == k) {
-            answer.add(cur);
-            return;
-        }
-        for (int neighbor : graph.getOrDefault(cur, new ArrayList<>())) {
-            if (!visited.contains(neighbor)) {
-                visited.add(neighbor);
-                dfs(neighbor, distance + 1, k);
+        // convert to a graph 
+        m= new HashMap<>();
+        check(root,null);
+        Queue<Pair> q = new LinkedList<>();
+        List<Integer> ans = new ArrayList<>();
+        int[] vis = new int[501];
+        q.add(new Pair(target,0));
+        while(!q.isEmpty()){
+            Pair cur = q.poll();
+            vis[cur.r.val]+=1;
+            if(cur.c==k) ans.add(cur.r.val);
+            for(Pair x: m.get(cur.r)){
+                if(vis[x.r.val]==0)
+                q.add(new Pair(x.r, cur.c+1));
             }
         }
+        return ans;
+        
+    }
+    
+    public void check(TreeNode root,TreeNode p){
+        if(root==null){
+            return ;
+        }
+        if(p!=null){
+            m.put(root,new ArrayList<>());
+            m.get(root).add(new Pair(p,1));
+        }else{
+            m.put(root,new ArrayList<>());
+        }
+        if(root.left!=null){
+            m.get(root).add(new Pair(root.left,1));
+            check(root.left,root);
+        }
+        if(root.right!=null){
+            m.get(root).add(new Pair(root.right,1));
+            check(root.right,root);
+        }
+        return; 
+        
     }
 }
