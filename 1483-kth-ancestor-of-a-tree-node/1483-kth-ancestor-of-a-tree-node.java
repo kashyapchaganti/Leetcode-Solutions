@@ -1,63 +1,47 @@
 class TreeAncestor {
-    List<List<Integer>> adj;
     int[][] dp;
-    // int[] depth;
     public TreeAncestor(int n, int[] parent) {
-        adj= new ArrayList<>();
+        dp= new int[n+1][21];
+        // for(int[] x:dp) Arrays.fill(x,-1);
+        List<List<Integer>> adj = new ArrayList<>();
+        for(int i=0;i<n;i++) adj.add(new ArrayList<>());
         for(int i=0;i<n;i++){
-            adj.add(new ArrayList<>());
-        }
-        for(int i=0;i<n;i++){
-            int x= parent[i];
-            if(x!=-1){
-                adj.get(x).add(i);
+            if(parent[i]!=-1){
+                adj.get(parent[i]).add(i);
             }
         }
-        dp= new int[n+1][21];
-        binaryLifting(0,-1);
-        // depth= new int[n+1];
-        // check(0,-1);
-        
-        
+        // System.out.println(adj);
+        binaryLifting(0,-1,adj);
+        // for(int[] x:dp) System.out.println(Arrays.toString(x));
     }
-//     public void check(int i, int p){
-//         if(p!=-1){
-//             depth[i]=depth[p]+1;
-//         }
-//         for(int x: adj.get(i)){
-//             check(x,i);
-//         }
-        
-//     }
     
     public int getKthAncestor(int node, int k) {
-        int ans = query(node , k);
-        return ans;
+        return query(node,k);
     }
-    public int query(int n, int k){
-        if(n==-1 || k==0){
-            return n;
-        }
+    public int query(int i, int k){
+        if(k==0  || i==-1) return i;
         for(int j=20;j>=0;j--){
-            if(k >= (1 << j)){
-                int next = dp[n][j];
-                return query(next, k-(1 <<j));
+            if(k >= (1 <<j)){
+                int nxtNode = dp[i][j]; // jump 2 ^ j levels 
+                // System.out.println()
+                int r = k - (1<<j);
+                return query(nxtNode, r);
             }
         }
         return -1;
     }
-    public void binaryLifting(int i, int p){
+    public void binaryLifting(int i, int p, List<List<Integer>>adj ){
         dp[i][0]=p;
+        
         for(int j=1;j<=20;j++){
             if(dp[i][j-1]!=-1){
-                dp[i][j]= dp[dp[i][j-1]][j-1];
+                dp[i][j]= dp[dp[i][j-1]][j-1]; // 2^x levels from current is 2^x-1 from the 2^x-1 th parent
             }else{
                 dp[i][j]=-1;
             }
         }
         for(int x: adj.get(i)){
-            
-            binaryLifting(x,i);
+            binaryLifting(x,i,adj);
         }
     }
 }
