@@ -12,7 +12,7 @@ class Solution {
             m.get(v).add(i);
         }
         int min= (int)(1e9);
-        for(Map.Entry<Integer,List<Integer>>e:m.entrySet()){
+        for(Map.Entry<Integer,List<Integer>>e:m.entrySet()){ // this is O(N) coz u r at max traversing only n elements 
             List<Integer> x= e.getValue();
             int s=0;
             
@@ -24,8 +24,7 @@ class Solution {
                 }else{
                     a= (a/2)+1;
                     s= Math.max(a,s);
-                }
-                
+                }  
             }
             int first = x.get(0)+n;
             int last = x.get(x.size()-1);
@@ -36,7 +35,7 @@ class Solution {
                     b= (b/2)+1;
                     s= Math.max(b,s);
                 }
-            // System.out.println(s +" "+e.getKey());
+            
             min=Math.min(min,s);
             
         }
