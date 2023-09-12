@@ -1,42 +1,28 @@
 class Solution {
     public int minDeletions(String s) {
-        int n = s.length();
-    HashMap<Character,Long> m = new HashMap<>();
-    PriorityQueue<Pair> pq = new PriorityQueue<>((a,b)-> Long.compare(b.f,a.f));
-    for(int i=0;i<n;i++){
-      m.put(s.charAt(i), m.getOrDefault(s.charAt(i),0l)+1l);
-
-    }
-    
-    for(Map.Entry<Character,Long> e: m.entrySet()){
-      pq.add(new Pair(e.getKey(),e.getValue()));
-    }
-    long ans=0;
-    long prev= (long)(1e9); 
-    // Pq =  { e: 3, b: 3, c:3, a:3 }
-    
-    while(!pq.isEmpty()){ 
-        Pair cur = pq.poll();
-        while(cur.f>=prev){   
-           cur.f--;
-          ans++;
+        int n =s.length();
+        // int[] nums = new int[n];
+        int[] m = new int[26];
+        for(int i=0;i<n;i++){
+            m[s.charAt(i)-'a']++;
         }
-        if(cur.f==0){
-            continue;
+        Arrays.sort(m);
+        int c=0;
+        HashSet<Integer> s1 = new HashSet<>();
+        for(int i=25;i>=0;i--){
+            int count=m[i];
+            int f=-1;
+            if(count==0) break;
+            while(s1.contains(count)){
+                count--;
+                f=0;
+                c++;
+            }
+            if(count>0 || f==-1){
+                s1.add(count);
+            }
+           
         }
-        prev=cur.f;
+        return c;
     }
-
-    return (int)ans;
-    }
-   
-  
 }
-public class Pair {
-    char ch;
-    long f;
-    public Pair(char ch, long f ){
-      this.ch=ch;
-      this.f=f;
-    }
-  }
