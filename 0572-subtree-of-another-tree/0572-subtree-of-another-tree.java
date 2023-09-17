@@ -21,9 +21,11 @@ class Solution {
         if(root==null && subRoot==null) return true;
         if(root==null || subRoot==null) return false;
         boolean a= check2(root, subRoot);
+        if(a) return true;
         boolean b= check(root.left, subRoot);
+        if(b) return true;
         boolean c= check(root.right, subRoot);
-        if(a || b || c) return true;
+        if(c) return true;
         return false;
     }
     public boolean check2(TreeNode root, TreeNode subRoot){
