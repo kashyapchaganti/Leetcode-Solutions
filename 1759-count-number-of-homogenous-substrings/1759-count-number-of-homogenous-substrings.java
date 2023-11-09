@@ -2,7 +2,7 @@ class Solution {
     int mod = (int)(1e9+7);
     public int countHomogenous(String s) {
         int n = s.length();
-        System.out.println(n);
+        
         List<List<Integer>> nums = new ArrayList<>();
         for(int i=0;i<26;i++){
             nums.add(new ArrayList<>());
