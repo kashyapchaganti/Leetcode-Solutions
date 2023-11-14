@@ -14,35 +14,28 @@
  * }
  */
 class Solution {
-    HashMap<TreeNode,Integer> m,c;
-    int ans=0;
+    int count;
     public int averageOfSubtree(TreeNode root) {
-        m=new HashMap<>();
-        c=new HashMap<>();
+        if(root==null) return 0;
         check(root);
-        return ans;
+        
+        return count;
     }
-    public void check(TreeNode root){
+    public Pair<Integer,Integer> check(TreeNode root){
         if(root==null){
-            return;
+            return new Pair(0,0);
         }
         
-        m.put(root,root.val);
-        c.put(root,1);
-        if(root.left!=null){
-            check(root.left);
-            m.put(root,m.get(root.left)+m.get(root));
-            c.put(root,c.get(root.left)+c.get(root));
-            
-        }
-        if(root.right!=null){
-            check(root.right);
-            m.put(root,m.get(root.right)+m.get(root));
-            c.put(root,c.get(root.right)+c.get(root));
-        }
-        if(m.get(root)/c.get(root)==root.val){
-            ans++;
-        }
+        Pair<Integer,Integer> left= check(root.left);
+        Pair<Integer,Integer> right= check(root.right);
         
+        
+        int nodeSum = left.getKey() + right.getKey()+root.val;
+        int nodes = left.getValue() + right.getValue()+1;
+        
+        if(nodeSum/nodes == root.val)count++;
+        
+        
+        return new Pair(nodeSum, nodes);
     }
 }
