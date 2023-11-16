@@ -9,27 +9,24 @@
  */
 class Solution {
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-     return check(root,p,q)  ; 
+        return check(root,p,q);
     }
-    public TreeNode check(TreeNode root, TreeNode p, TreeNode q){
+    public TreeNode check(TreeNode root , TreeNode p, TreeNode q){
         if(root==null){
-            return root;
-        }
-        
-        TreeNode l = check(root.left, p,q);
-        TreeNode r = check(root.right, p,q);
-        if(root==p || root ==q){
-            return root;
-        }
-        
-        
-        if(l!=null && r!=null){
-            return root;
-        }
-        if(l!=null && r==null){
-            return l;
-        }
-        return r;
-        
+		return null;
+}
+if(root==p || root==q){
+	return root;
+}
+TreeNode left = check(root.left, p,q);
+TreeNode right = check(root.right, p,q);
+
+if(left!=null && right!=null){
+	return root;
+}
+if(left!=null){return left;}
+return right;
     }
+
+    
 }
