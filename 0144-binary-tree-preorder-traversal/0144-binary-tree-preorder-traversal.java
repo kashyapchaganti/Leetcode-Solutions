@@ -17,22 +17,44 @@ class Solution {
     public List<Integer> preorderTraversal(TreeNode root) {
         
         List<Integer> ans = new ArrayList<>();
+        List<Integer> ans1 = new ArrayList<>();
+        List<Integer> ans2 = new ArrayList<>();
         if(root==null){
             return ans;
         }
-        Stack<TreeNode> st = new Stack();
-        st.add(root);
-        
+        Stack<Pair> st = new Stack();
+        st.add(new Pair(root,1));
         while(!st.isEmpty()){
-            TreeNode cur =st.pop();
-            ans.add(cur.val);
-            if(cur.right!=null){
-                st.add(cur.right);
-            }
-            if(cur.left!=null){
-                st.add(cur.left);
+            Pair cur = st.pop();
+            if(cur.c==1){
+                ans.add(cur.r.val);
+                cur.c++;
+                st.push(cur);
+                if(cur.r.left!=null){
+                    st.push(new Pair(cur.r.left,1));
+                }
+            }else if(cur.c==2){
+                ans1.add(cur.r.val);
+                cur.c++;
+                st.push(cur);
+                if(cur.r.right!=null){
+                    st.push(new Pair(cur.r.right,1));
+                }
+                
+                
+            }else if(cur.c==3){
+                ans2.add(cur.r.val);
             }
         }
         return ans;
+        
+    }
+    class Pair{
+        TreeNode r;
+        int c;
+        public Pair(TreeNode r, int c){
+            this.r=r;
+            this.c=c;
+        }
     }
 }
