@@ -21,7 +21,7 @@ class Solution {
 		q.add(root);
 		while(!q.isEmpty()){
 			int n =q.size();
-			TreeNode x=null;
+			
 			for(int i=0;i<n;i++){
 				TreeNode cur = q.poll();
 				if(cur.left!=null){
@@ -30,10 +30,11 @@ class Solution {
 				if(cur.right!=null){
 					q.add(cur.right);
 				}
-				if(i==n-1)x=cur;
+                if(i==n-1) ans.add(cur.val);
+				
 
 			}
-			ans.add(x.val);
+			
 		}
 		return ans;
             
