@@ -7,56 +7,44 @@
  *     TreeNode(int x) { val = x; }
  * }
  */
-class Pair{
-    TreeNode r;
-    int c;
-    public Pair(TreeNode r, int c){
-        this.r=r;
-        this.c=c;
-    }
-}
+
 class Solution {
-    HashMap<TreeNode,List<Pair>>m;
+    List<Integer> finalOutput ;
+    HashMap<Integer,HashSet<Integer>> adjacencyList; 
+
     public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
-        // convert to a graph 
-        m= new HashMap<>();
-        check(root,null);
-        Queue<Pair> q = new LinkedList<>();
-        List<Integer> ans = new ArrayList<>();
-        int[] vis = new int[501];
-        q.add(new Pair(target,0));
-        while(!q.isEmpty()){
-            Pair cur = q.poll();
-            vis[cur.r.val]+=1;
-            if(cur.c==k) ans.add(cur.r.val);
-            for(Pair x: m.get(cur.r)){
-                if(vis[x.r.val]==0)
-                q.add(new Pair(x.r, cur.c+1));
-            }
-        }
-        return ans;
-        
+        finalOutput= new ArrayList<>(); 
+         adjacencyList= new HashMap<>();
+	buildGraph(root,-1); 
+	calculateDistanceFromSource(target.val, 0, k, -1);
+	return finalOutput;
     }
-    
-    public void check(TreeNode root,TreeNode p){
-        if(root==null){
-            return ;
-        }
-        if(p!=null){
-            m.put(root,new ArrayList<>());
-            m.get(root).add(new Pair(p,1));
-        }else{
-            m.put(root,new ArrayList<>());
-        }
-        if(root.left!=null){
-            m.get(root).add(new Pair(root.left,1));
-            check(root.left,root);
-        }
-        if(root.right!=null){
-            m.get(root).add(new Pair(root.right,1));
-            check(root.right,root);
-        }
-        return; 
-        
-    }
+    public void buildGraph(TreeNode root, int parent){
+ if(root==null){
+	return ; 
 }
+adjacencyList.put(root.val, adjacencyList.getOrDefault(root.val, new HashSet<>()));
+if(parent!=-1) adjacencyList.get(root.val).add(parent);
+if(root.left!=null)
+adjacencyList.get(root.val).add(root.left.val);
+if(root.right!=null)
+adjacencyList.get(root.val).add(root.right.val);
+
+buildGraph(root.left, root.val);
+buildGraph(root.right, root.val);
+
+    }
+
+public void calculateDistanceFromSource(int source, int distance, int requiredDistance, int parent){
+	if(distance == requiredDistance) finalOutput.add(source);
+	for(int child: adjacencyList.get(source)){
+		if(child == parent) continue;
+		calculateDistanceFromSource(child, distance+1, requiredDistance, source);
+
+	}
+	
+
+}
+    
+}
+
