@@ -5,10 +5,11 @@ class Pair{
     public Pair( int id, int s, int p){
         this.id=id;
         this.s=s;
-        this.p=p;
-        
+        this.p=p; 
     }
 }
+//The idea is to basically sort based on the start time initially. Once you;re done with that. You need to figure out what is the first start time. 
+
 class Solution {
     public int[] getOrder(int[][] tasks) {
         int n = tasks.length;
@@ -22,11 +23,13 @@ class Solution {
         int i=0,j=0;
         int t= 0;
         while(i<n || !pq.isEmpty()){
+            // this is to know when exactly is the first start time and let us say you have start times 4, 100, 101
+            // you will add 4 first, and remove it later, but now the t =4 + processing time of that 4 
+            // but what if the processing time is so small . Then you need to add 100. So t =100;
             if(pq.isEmpty() && t<newTasks[i].s){
                 t=newTasks[i].s;
             }
-            
-            while(i<n && t>=newTasks[i].s ){
+            while(i<n && t>=newTasks[i].s ){ // add all the possible indices which fall under the given processing time
                 Pair cur = newTasks[i];
                 pq.add(new Pair(cur.id, cur.s, cur.p));
                 i++;
