@@ -4,7 +4,7 @@ class Solution {
     public int minimumEffortPath(int[][] heights) {
         n= heights.length;
         m= heights[0].length;
-        PriorityQueue<Pair> q= new PriorityQueue<>((a,b)-> a.d-b.d);
+        Queue<Pair> q= new LinkedList<>();
         int[][] dis = new int[n][m];
         for(int[] x:dis) Arrays.fill(x,(int)(1e9));
         dis[0][0]=0;
@@ -33,3 +33,6 @@ class Solution {
         }
     }
 }
+
+
+
