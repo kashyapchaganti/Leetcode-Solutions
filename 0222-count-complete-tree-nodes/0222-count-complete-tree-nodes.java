@@ -21,9 +21,28 @@ class Solution {
         if(root==null){
             return 0;
         }
-        int leftNodes = countNodesHelper(root.left);
-        int rightNodes = countNodesHelper(root.right);
+        int leftHeight = getLeftHeight(root.left);
+        int rightHeight = getRightHeight(root.right);
         
-        return 1+ leftNodes+rightNodes;
+        if(leftHeight==rightHeight) return ((2 << leftHeight)-1);
+        return 1+(countNodesHelper(root.left)+countNodesHelper(root.right));
+    }
+    public int getLeftHeight(TreeNode root){
+        if(root==null) return 0;
+        int height=0;
+        while(root!=null){
+            height++;
+            root= root.left;
+        }
+        return height;
+    }
+    public int getRightHeight(TreeNode root){
+        if(root==null) return 0;
+        int height=0;
+        while(root!=null){
+            height++;
+            root= root.right;
+        }
+        return height;
     }
 }
