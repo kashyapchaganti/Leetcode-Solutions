@@ -14,27 +14,22 @@
  * }
  */
 class Solution {
-    int idx=0;
-    HashMap<Integer,Integer> m;
+    int n,idx=0;
     public TreeNode bstFromPreorder(int[] preorder) {
-        int[] inorder = new int[preorder.length];
-        m= new HashMap<>();
-        for(int i=0;i<preorder.length;i++){
-            inorder[i]= preorder[i];
-        }
-        Arrays.sort(inorder);
-        for(int i=0;i<preorder.length;i++){
-            m.put(inorder[i],i);
-        }
-        return check(inorder,preorder,0,preorder.length-1 );
+        n= preorder.length;
+        
+        return check(preorder, Integer.MAX_VALUE);
+        
     }
-    public TreeNode check(int[] inorder,int[] preorder, int left, int right){
+    public TreeNode check(int[] preorder, int max){
         
-        if(left>right) return null;
+        if(idx>= preorder.length || preorder[idx]>max){
+            return null;
+        }
+        TreeNode root = new TreeNode(preorder[idx++]);
+        root.left= check(preorder, root.val);
+        root.right= check(preorder, max);
         
-        TreeNode root= new TreeNode(preorder[idx++]);
-        root.left= check(inorder,preorder, left, m.get(root.val)-1);
-        root.right= check(inorder,preorder, m.get(root.val)+1, right);
         return root;
     }
 }
