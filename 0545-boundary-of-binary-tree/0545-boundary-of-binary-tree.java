@@ -31,7 +31,6 @@ class Solution {
             res.add(st.pop());
         }
         return res;
-        
     }
     public void addLeft(TreeNode root){
         if(root==null) return ; 
@@ -48,7 +47,6 @@ class Solution {
                     res.add(root.right.val);
                      addLeft(root.right);    
                 }
-                
             }
         }
     }
@@ -77,9 +75,7 @@ class Solution {
         if(root.left==null && root.right==null){
             res.add(root.val);
         }
-        
         addLeaves(root.left);
-        
         addLeaves(root.right);
 
     }
