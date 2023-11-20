@@ -16,21 +16,19 @@
 class Solution {
     TreeNode prev=null;
     public void flatten(TreeNode root) {
-        helper(root);
+        check(root);
+        return;
     }
-    
-    public TreeNode helper(TreeNode root){
-        if(root==null){
-            return root;
-        }
-        TreeNode right =helper(root.right);
-        TreeNode left =helper(root.left);
-        root.left= null;
+    public TreeNode check(TreeNode root){
+        if(root==null) return null;
         
+        TreeNode r= check(root.right);
+        TreeNode l =check(root.left);
+        
+        root.left =null;
         root.right = prev;
-        prev=root;
-        
-        return prev;
+        prev= root;
+        return root;
         
     }
 }
