@@ -18,20 +18,20 @@ class Solution {
     public int diameterOfBinaryTree(TreeNode root) {
         if(root==null) return 0;
         max=0;
-        check(root,0);
+        check(root);
         return max;
     }
-    public int check(TreeNode root, int level){
+    public int check(TreeNode root){
         if(root==null){
-            return level-1;
+            return 0;
         }
         
-        int a = check(root.left, level+1); 
-        int b = check(root.right, level+1);
+        int a = check(root.left); 
+        int b = check(root.right);
         
-        max = Math.max(a-level + b-level, max);
+        max = Math.max(max, a+b);
         // System.out.println(root.val +" "+level +" "+ a +" "+b);
-        return Math.max(a,b);
+        return Math.max(a,b)+1;
         
     }
 }
