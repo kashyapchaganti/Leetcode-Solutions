@@ -26,10 +26,11 @@ class Solution {
             return level-1;
         }
         
-        int a = check(root.left, level+1);
+        int a = check(root.left, level+1); 
         int b = check(root.right, level+1);
         
         max = Math.max(a-level + b-level, max);
+        // System.out.println(root.val +" "+level +" "+ a +" "+b);
         return Math.max(a,b);
         
     }
