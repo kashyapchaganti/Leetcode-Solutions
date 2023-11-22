@@ -1,56 +1,46 @@
 class Solution {
-    public int mostBooked(int n, int[][] nums) {
-        int m = nums.length,max=0;
-        PriorityQueue<Pair> q = new PriorityQueue<>((a,b)-> a.r==b.r? a.idx-b.idx:Long.compare(a.r,b.r));
+    public int mostBooked(int n, int[][] meetings) {
+        PriorityQueue<Pair> busy = new PriorityQueue<>((a,b)-> a.totalTime==b.totalTime? a.idx-b.idx: Long.compare(a.totalTime, b.totalTime));
+        PriorityQueue<Pair> available = new PriorityQueue<>((a,b)-> a.idx-b.idx);
         for(int i=0;i<n;i++){
-            q.add(new Pair(0,0,i));
+            available.add(new Pair(i,0));
         }
-        Arrays.sort(nums,(a,b)-> a[0]==b[0]? a[1]-b[1]: a[0]-b[0]);
-        int t=0;
+        Arrays.sort(meetings,(a,b)-> a[0]==b[0]? a[1]-b[1]: a[0]-b[0]);
+        int[] count = new int[n];
         
-        for(int[] x: nums){
-            if(q.peek().r<=x[0]){
-                PriorityQueue<Pair> q1 = new PriorityQueue<>((a,b)-> a.idx-b.idx);    
-                while(!q.isEmpty() && q.peek().r<=x[0]){
-                    Pair y= q.poll();
-                    q1.add(y);
-                }
-                Pair y= q1.poll();
-                q.add(new Pair(x[1],y.c+1,y.idx));
-                while(!q1.isEmpty()){
-                    q.add(q1.poll());
-                }
-                
-            }else{
-                Pair y= q.poll();
-                int d= x[1]-x[0];
-                q.add(new Pair(d+y.r, y.c+1,y.idx));
+        for(int[] meeting: meetings){
+            while(!busy.isEmpty() && busy.peek().totalTime<=meeting[0]){
+                available.add(busy.poll());
             }
-            
-            
+            if(available.isEmpty()){
+                Pair room = busy.poll();
+                busy.add(new Pair(room.idx,room.totalTime+meeting[1]-meeting[0]));
+                count[room.idx]++;
+            }else{
+                Pair room = available.poll();
+                busy.add(new Pair(room.idx, meeting[1]));
+                count[room.idx]++;
+            }
         }
-        int ans=(int)(1e9);
-        while(!q.isEmpty()){
-            Pair y= q.poll();
-            // System.out.println(y);
-            if(max<y.c ){
-                ans= y.idx;
-                max=y.c;
-            }else if(max==y.c){
-                ans= Math.min(ans, y.idx);
+        int ans=0, max=0;
+        for(int i=n-1;i>=0;i--){
+            if(count[i]>=max){
+                ans=i;
+                max= count[i];
             }
         }
         return ans;
-    }
-    public class Pair{
-        int c,idx;
-        long r;
-        public Pair(long r, int c,int idx){
-            this.r=r;
-            this.c=c;
-            this.idx=idx;
-        }
-        public String toString(){ return r+" "+c +" "+idx;}
+        
+       
     }
     
+}
+class Pair{
+    long totalTime; 
+    int idx;
+    public Pair(int idx, long totalTime){
+        this.idx= idx;
+        
+        this.totalTime= totalTime;
+    }
 }
