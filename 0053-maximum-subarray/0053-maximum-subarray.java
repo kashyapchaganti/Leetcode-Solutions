@@ -1,20 +1,16 @@
 class Solution {
     public int maxSubArray(int[] nums) {
-        // max sum subarray -> Kadane's Algo 
-        
         int n = nums.length;
-        int max= (int)(-1e9);
-        int s=0;
+        int sum=0,max=(int)(-1e9);
         for(int i=0;i<n;i++){
-            if(nums[i]>s+nums[i]){
-                max= Math.max(max, nums[i]);
-                s=nums[i];
+            if(nums[i]+sum<nums[i]){
+                sum=nums[i];
+                max = Math.max(sum,max);
             }else{
-                s=s+nums[i];
-                max= Math.max(max, s);
+                sum+=nums[i];
+                max = Math.max(sum,max);
             }
         }
-        return max;
-        
+        return max==(int)(-1e9)?-1: max;
     }
 }
