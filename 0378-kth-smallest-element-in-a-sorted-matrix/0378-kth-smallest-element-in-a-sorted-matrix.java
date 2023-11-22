@@ -22,6 +22,7 @@ class Solution {
             while(j>=0){
                 if(grid[i][j]>mid){
                     j--;
+                    
                 }else{
                     break;
                 }
