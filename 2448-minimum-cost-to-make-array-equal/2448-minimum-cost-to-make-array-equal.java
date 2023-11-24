@@ -1,33 +1,35 @@
-class Pair{
-    int num;
-    int c;
-    public Pair(int num, int c){
-        this.num=num;
-        this.c=c;
-    }
-}
 class Solution {
-    public long minCost(int[] nums, int[] cost) { // distribute and find the median [1,2,3,5]- > [1,1,2,2,2,2,...,3,3,3,5]
-        int n = nums.length;
-        List<Pair> arr = new ArrayList<>();
+    public long minCost(int[] nums, int[] cost) {
+        int n =nums.length;
+        // first find the cost to make all elements equal to some number 
+        // then you can use prefix sums to make them all equals to anything else by just adding or removing 
+        
+        int[][] arr = new int[n][2];
+        long totalFreq=0;
         for(int i=0;i<n;i++){
-            arr.add(new Pair(nums[i],cost[i]));
+            arr[i][0]= nums[i];arr[i][1]= cost[i];
+            totalFreq+=arr[i][1];
         }
-        Collections.sort(arr,(a,b)-> a.num-b.num);
-        long s=0;
-        for(Pair x: arr){ s+=x.c;}
-        int j=0;
-        long t=0;
-        int median=0;
-        while(t<(s+1)/2 && j<n){
-            t+=arr.get(j).c;
-            median=arr.get(j++).num;
+        Arrays.sort(arr, (a,b)-> a[0]-b[0]);
+        int median =0; long curFreq=0;
+        for(int i=0;i<n;i++){
+            curFreq+=arr[i][1];
+            if(curFreq>=((totalFreq+1)/2)){
+                median = i;
+                break;
+            }
         }
-        //System.out.println(median);
+        // System.out.println(median);
+        // for(int[] x: arr){
+        // System.out.println(Arrays.toString(x));
+        // }
         long ans=0;
         for(int i=0;i<n;i++){
-            ans+=Math.abs(1L*nums[i]-1L*median)*1l*(cost[i]);
+            ans+= Math.abs(arr[i][0]-arr[median][0])*1L*arr[i][1];
         }
         return ans;
+        
+        
+        
     }
 }
