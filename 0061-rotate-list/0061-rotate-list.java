@@ -9,28 +9,31 @@
  * }
  */
 class Solution {
-    public ListNode rotateRight(ListNode head, int rotations) {
- if (head == null || head.next == null || rotations <= 0)
-      return head;
-
-    // find the length and the last node of the list
-    ListNode lastNode = head;
-    int listLength = 1;
-    while (lastNode.next != null) {
-      lastNode = lastNode.next;
-      listLength++;
-    }
-
-    lastNode.next = head; // connect the last node with the head to make it a circular list
-    rotations %= listLength; // no need to do rotations more than the length of the list
-    int skipLength = listLength - rotations;
-    ListNode lastNodeOfRotatedList = head;
-    for (int i = 0; i < skipLength - 1; i++)
-      lastNodeOfRotatedList = lastNodeOfRotatedList.next;
-
-    // 'lastNodeOfRotatedList.next' is pointing to the sub-list of 'k' ending nodes
-    head = lastNodeOfRotatedList.next;
-    lastNodeOfRotatedList.next = null;
-    return head;
+    public ListNode rotateRight(ListNode head, int k) {
+        if(head==null || k==0) return head;
+        int len = 0;
+        ListNode d = head;
+        ListNode last =null;
+        while(d!=null){
+            len++;
+            if(d.next==null){
+                d.next=head;
+                last= d;
+                break;
+            }
+            d=d.next;
+        }
+        k=k%len;
+        k= len-k;
+        
+        while(head!=null && k>0){
+            k--;
+            if(k==0) {
+                last= head.next;
+                head.next=null;
+            }
+            head =head.next;
+        }
+        return last;
     }
 }
