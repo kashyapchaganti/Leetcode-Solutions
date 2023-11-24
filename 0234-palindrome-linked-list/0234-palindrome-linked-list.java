@@ -17,12 +17,11 @@ class Solution {
             x = slow;
             fast = fast.next.next;
             slow =slow.next;
-            
         }
         ListNode mid = reverse(slow);
-        if(x!=null){
-            x.next= null;
-        }
+        // if(x!=null){
+        //     x.next= null;
+        // }
         while(head!=null && mid!=null){
             if(head.val!=mid.val){
                 return false;
