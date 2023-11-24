@@ -1,15 +1,17 @@
 class Solution {
     public int jump(int[] nums) {
         int n = nums.length;
-        int curEnd=0,curFar=0;
-        int s=0;
-        for(int i=0;i<n-1;i++){
-            curFar = Math.max(curFar,i+nums[i]); // 2 1 3 0 1 for 2 3 is the max jump possible
-            if(i==curEnd){
-                s++;
-                curEnd= curFar;
+        int l=0, r= 0;
+        int ans=0;
+        while(r<n-1){
+            int max=0;
+            for(int i=l;i<=r;i++){
+                max= Math.max(max, nums[i]+i);
             }
+            l= r+1;
+            r= max;
+            ans++;
         }
-        return s;
+        return ans;
     }
 }
