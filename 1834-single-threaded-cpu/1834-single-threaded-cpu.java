@@ -1,44 +1,43 @@
-class Pair{
-    int s;
-    int p;
-    int id;
-    public Pair( int id, int s, int p){
-        this.id=id;
-        this.s=s;
-        this.p=p; 
-    }
-}
-//The idea is to basically sort based on the start time initially. Once you;re done with that. You need to figure out what is the first start time. 
-
 class Solution {
     public int[] getOrder(int[][] tasks) {
         int n = tasks.length;
-        Pair[] newTasks= new Pair[n];
+        Pair[] nums = new Pair[n];
+        int[] res = new int[n];
         for(int i=0;i<n;i++){
-            newTasks[i]= new Pair(i, tasks[i][0],tasks[i][1]);
+            nums[i]= new Pair(i,tasks[i][0],tasks[i][1]);
         }
-        int[] res =new int[n];
-        Arrays.sort(newTasks, (a,b)-> a.s-b.s); 
-        PriorityQueue<Pair> pq = new PriorityQueue<>((a,b)-> a.p==b.p? a.id-b.id: a.p-b.p);
-        int i=0,j=0;
-        int t= 0;
-        while(i<n || !pq.isEmpty()){
-            // this is to know when exactly is the first start time and let us say you have start times 4, 100, 101
-            // you will add 4 first, and remove it later, but now the t =4 + processing time of that 4 
-            // but what if the processing time is so small . Then you need to add 100. So t =100;
-            if(pq.isEmpty() && t<newTasks[i].s){
-                t=newTasks[i].s;
+        Arrays.sort(nums, (a,b)-> a.startTime-b.startTime);
+        PriorityQueue<Pair> pq = new PriorityQueue<>((a,b)-> a.processingTime==b.processingTime? a.idx-b.idx:a.processingTime-b.processingTime);
+        int taskIndex =0, ansIndex=0;
+        int currentTime= 0;
+        while(taskIndex<n || !pq.isEmpty()){
+            
+            if(pq.isEmpty() && currentTime<=nums[taskIndex].startTime){
+                currentTime=nums[taskIndex].startTime;
             }
-            while(i<n && t>=newTasks[i].s ){ // add all the possible indices which fall under the given processing time
-                Pair cur = newTasks[i];
-                pq.add(new Pair(cur.id, cur.s, cur.p));
-                i++;
+            
+            while(taskIndex<n && currentTime>= nums[taskIndex].startTime){
+                pq.add(nums[taskIndex]);
+                taskIndex++;
             }
-            Pair cur2= pq.poll();
-            res[j++]=cur2.id;
-            t+=cur2.p;
+            
+            Pair curTask = pq.poll();
+            int curIndex = curTask.idx;
+            currentTime+=curTask.processingTime;
+            
+            res[ansIndex++]=curIndex;
+            
         }
         return res;
         
+        
+    }
+}
+class Pair{
+    int idx, startTime, processingTime; 
+    public Pair(int idx,int startTime, int processingTime){
+        this.idx= idx;
+        this.startTime= startTime;
+        this.processingTime= processingTime;
     }
 }
