@@ -1,44 +1,28 @@
 class Solution {
-    public int[][] merge(int[][] matrix) {
-        int n =matrix.length;
-        Arrays.sort(matrix,(a,b)-> a[0]==b[0]? a[1]-b[1]:a[0]-b[0]);
+    public int[][] merge(int[][] intervals) {
+        int n = intervals.length;
+        Arrays.sort(intervals, (a,b)-> a[0]==b[0]? a[1]-b[1]: a[0]-b[0]);
         
-        int left = matrix[0][0], right= matrix[0][1];
-        List<Pair> arr= new ArrayList<>();
-        for(int i=1;i<n;i++){
-            int[] cur = matrix[i];
-            if(right>=cur[0]){
-                right = Math.max(cur[1],right);
-            }else{
-                arr.add(new Pair(left,right));
-                left= cur[0]; right= cur[1];
+        int start = intervals[0][0], end = intervals[0][1];
+        int i =1;
+        List<Integer[]> arr= new ArrayList<>();
+        while(i<n){
+            if(intervals[i][0]<=end){
+                end = Math.max(intervals[i][1], end); // 1, 6 
+            }else {
+                arr.add(new Integer[]{start, end});
+                start = intervals[i][0];
+                end =  intervals[i][1];
             }
+            i++;
         }
-        arr.add(new Pair(left,right));
+        arr.add(new Integer[]{start, end});
         int[][] ans = new int[arr.size()][2];
-        int idx=0;
-        for(Pair cur: arr){
-            ans[idx][0]= cur.start;
-            ans[idx][1]= cur.end;
-            idx++;
+        for(int j=0;j<arr.size();j++){
+            ans[j][0]= arr.get(j)[0];
+            ans[j][1]= arr.get(j)[1];
         }
         return ans;
-        
     }
+    
 }
-class Pair{
-    int start, end;
-    public Pair(int start , int end ){
-        this.start =start; 
-        this.end=end;
-    }
-}
-/*
-  [1, 3], [2,6], [8,10], [15,18]
-  sort 
-  [1, 6] , [8,10], [15,18]
-  
-  [1,3], [2,6], [5,10], [9,18]
-  [1,18]
-
-*/
