@@ -8,7 +8,7 @@ class Solution {
                 ans[i]= ans[i-1]+1;
             }
         }
-        
+        // System.out.println(Arrays.toString(ans));
         int sum=ans[n-1];
         
         for(int i=n-2;i>=0;i--){
@@ -17,7 +17,7 @@ class Solution {
             }
             sum+=ans[i];
         }
-        
+        // System.out.println(Arrays.toString(ans));
         return sum;
     }
 }
