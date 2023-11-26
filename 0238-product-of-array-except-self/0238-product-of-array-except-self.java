@@ -8,12 +8,14 @@ class Solution {
         
         int prev=nums[0];
         for(int i=1;i<n;i++){
-            ans[i]=ans[i-1]*prev;
-            prev= nums[i];
+            ans[i]=prev;
+            prev*= nums[i];
             
         }
         // System.out.println(Arrays.toString(ans));
         // System.out.println(prev);
+        
+        prev= nums[n-1];
         
         for(int i=n-2;i>=0;i--){
             ans[i]=ans[i]*prev;
