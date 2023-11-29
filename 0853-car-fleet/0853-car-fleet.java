@@ -8,9 +8,7 @@ class Solution {
             nums[i][2]=(double)(target-position[i])/(double)speed[i];
         }
         Arrays.sort(nums, (a,b)-> Double.compare(a[0],b[0]));
-        for(double[] x: nums){
-            System.out.println(Arrays.toString(x));
-        }
+        
         Stack<Double> st = new Stack();
         for(int i=n-1;i>=0;i--){
             double max = nums[i][2];
