@@ -1,46 +1,42 @@
 class Solution {
-    int n;
-    public String reorganizeString(String s1) {
-        char[] arr1 = s1.toCharArray();
-        n=arr1.length;
-        StringBuilder s = new StringBuilder();
-        HashMap<Character,Integer> m = new HashMap<>();
-        for(char ch: arr1){
-            m.put(ch, m.getOrDefault(ch,0)+1);
+    public String reorganizeString(String s) {
+        StringBuilder sb= new StringBuilder();
+        PriorityQueue<Pair> pq = new PriorityQueue<>((a,b)-> b.c-a.c);
+        HashMap<Character,Integer> m= new HashMap<>();
+        int n =s.length();
+        for(int i=0;i<n;i++){
+            m.put(s.charAt(i),m.getOrDefault(s.charAt(i),0)+1);
         }
-        PriorityQueue<Map.Entry<Character,Integer>> pq = new PriorityQueue<>((a,b)-> b.getValue()-a.getValue());
-        for(Map.Entry<Character,Integer> e: m.entrySet()){
-            pq.add(e);
+        for(char ch:m.keySet()){
+            pq.add(new Pair(ch,m.get(ch)));
         }
-        char[] arr = new char[n];
-        int k=0;
         while(!pq.isEmpty()){
-            Map.Entry<Character,Integer> e = pq.poll();
-            if(s.length()==0 || s.charAt(s.length()-1)!= e.getKey()){
-                s.append(e.getKey());
-                e.setValue(e.getValue()-1);
-                if(e.getValue()>0){
-                    
-                pq.add(e);
-            }
+            Pair cur = pq.poll();
+            if(sb.length()==0 || sb.length()>0 && sb.charAt(sb.length()-1)!=cur.r){
+                sb.append(cur.r);
+                cur.c--;
+                if(cur.c>0)
+                pq.add(cur);
+                
             }else{
-                if(pq.size()==0){
-                    return "";
-                }
-                var second = pq.poll();
-                s.append(second.getKey());
-                second.setValue(second.getValue()-1);
-                if(second.getValue()>0){
-                    pq.add(second);
-                }
-                pq.add(e);
+                if(pq.isEmpty()){return "";}
+                Pair two= pq.poll();
+                sb.append(two.r);
+                two.c--;
+                if(two.c>0)pq.add(two);
+                if(cur.c>0)pq.add(cur);
+                
             }
-            
         }
-       
-        
-        return s.toString();
-        
+        return sb.toString().length()==n?sb.toString(): "";
     }
     
+}
+class Pair{
+    char r;
+    int c;
+    public Pair(char r, int c){
+        this.r=r;
+        this.c=c;
+    }
 }
