@@ -1,35 +1,51 @@
 class Solution {
-    public String rearrangeString(String str, int k) {
-        if (k <= 1)
-      return str;
-
-    Map<Character, Integer> charFrequencyMap = new HashMap<>();
-    for (char chr : str.toCharArray())
-      charFrequencyMap.put(chr, charFrequencyMap.getOrDefault(chr, 0) + 1);
-
-    PriorityQueue<Map.Entry<Character, Integer>> maxHeap = new PriorityQueue<Map.Entry<Character, Integer>>(
-        (e1, e2) -> e2.getValue() - e1.getValue());
-
-    // add all characters to the max heap
-    maxHeap.addAll(charFrequencyMap.entrySet());
-
-    Queue<Map.Entry<Character, Integer>> queue = new LinkedList<>();
-    StringBuilder resultString = new StringBuilder(str.length());
-    while (!maxHeap.isEmpty()) {
-      Map.Entry<Character, Integer> currentEntry = maxHeap.poll();
-      // append the current character to the result string and decrement its count
-      resultString.append(currentEntry.getKey());
-      currentEntry.setValue(currentEntry.getValue() - 1);
-      queue.offer(currentEntry);
-      if (queue.size() == k) {
-        Map.Entry<Character, Integer> entry = queue.poll();
-        if (entry.getValue() > 0)
-          maxHeap.add(entry);
-      }
-    }
-
-    // if we were successful in appending all the characters to the result string, return it
-    return resultString.length() == str.length() ? resultString.toString() : "";
+    public String rearrangeString(String s, int k) {
+        int n = s.length();
+        HashMap<Character,Integer> m = new HashMap<>();
+        for(char ch: s.toCharArray()){
+            m.put(ch, m.getOrDefault(ch,0)+1);
+        }
+        PriorityQueue<Pair> free = new PriorityQueue<>((a,b)-> b.count-a.count);
+        Queue<Pair> busy=new LinkedList<>();
+        // add all to free 
+        for(char ch: m.keySet()){
+            free.add(new Pair(ch, m.get(ch),0));
+        }
+        StringBuilder sb= new StringBuilder();
+        int i=0;
+        while(!busy.isEmpty() || !free.isEmpty() && i<s.length()){
+            
+            if(!busy.isEmpty() && i-busy.peek().index>=k){
+                free.add(busy.peek());
+                busy.poll();
+            }
+            
+            if(free.size()==0)return"";
+            Pair cur =free.poll();
+            
+            sb.append(cur.r);
+            cur.count--;
+            cur.index=i;
+            if(cur.count>0)
+            busy.add(cur);
+            i++;
+            
+        }
+        return sb.toString();
+                     
         
+        
+    }
+}
+class Pair{
+    char r;
+    int count, index;
+    public Pair(char r, int count, int index){
+        this.r=r;
+        this.count=count;
+        this.index=index;
+    }
+    public String toString(){
+        return r+" "+count+" "+index;
     }
 }
