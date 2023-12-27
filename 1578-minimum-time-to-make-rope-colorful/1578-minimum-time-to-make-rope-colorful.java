@@ -14,8 +14,6 @@ class Solution {
                     continue;
                 }else{
                     cost+=min;
-                    
-                    
                     continue;
                 }
             }
