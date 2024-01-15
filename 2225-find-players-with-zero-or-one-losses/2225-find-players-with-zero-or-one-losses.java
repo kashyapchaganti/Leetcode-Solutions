@@ -4,7 +4,7 @@ class Solution {
         for(int[] match: matches){
             max = Math.max(max,Math.max(match[0],match[1]));
         }
-        int[][] results = new int[max+1][2]; // [win][lose]
+        int[][] results = new int[max+1][2];
         List<List<Integer>> output = new ArrayList<>();
         for(int[] x: matches){
             int winner = x[0];
