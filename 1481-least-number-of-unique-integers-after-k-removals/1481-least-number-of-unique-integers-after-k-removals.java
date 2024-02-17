@@ -8,26 +8,16 @@ class Solution {
         for(int x: m.keySet()){
             pq.add(m.get(x));
         }
-        int c= pq.size();
+        
         while(k>0 && !pq.isEmpty()){
             int a = pq.poll();
-            while(k>0 && a>0){
-                a--;
-                k--;
-            }
-            if(a==0){
-                c--;
+            if(a<=k){
+                k-=a;
             }else{
-                return c;
+                return pq.size()+1;
             }
         }
-        return c;
+        return pq.size();
     }
 }
 
-/*
- 3 3 4 5 5 5 
-    {4:1, 3: 2,5:3}
-    
-
-*/
