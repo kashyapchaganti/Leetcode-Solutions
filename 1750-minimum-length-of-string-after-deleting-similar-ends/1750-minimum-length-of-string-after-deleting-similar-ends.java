@@ -14,12 +14,10 @@ class Solution {
             }
             idx++;
         }
-        System.out.println(a);
-        System.out.println(b);
-        System.out.println(c);
+        
         int i=0, j= s.length()-1;
         while(i<j){
-            System.out.println("1 " + i +" "+j);
+            
             if(s.charAt(i)==s.charAt(j)){
                 char ch = s.charAt(i);
                 List<Integer> arr;
@@ -32,7 +30,7 @@ class Solution {
                 int e2 = check(j,1,arr);
                 i=e1+1;
                 j=e2-1;
-                System.out.println("2 " + i +" "+j);
+                
             }else{
                 return j-i+1;
             }
@@ -44,18 +42,18 @@ class Solution {
     public int check(int i, int flag, List<Integer> arr){
         if(flag==0){
             int index = bs(i,arr);
-            System.out.println(index+" BS "+ flag +" "+i);
+            
             int ans =index;
             for(int j= index;j<arr.size()-1;j++){
                 if(arr.get(j+1)-arr.get(j)==1){
                     ans= j+1;
                     continue;
                 }else{
-                    System.out.println(index +" "+ans +" FLAG- INSIDE "+flag);
+                    
                     return arr.get(j);
                 }
             }
-            System.out.println(index +" "+ans +" FLAG "+flag);
+            
             return arr.get(ans);
             
             
@@ -63,19 +61,19 @@ class Solution {
         }else{
             
             int index = bs(i,arr);
-            System.out.println(index+" BS "+ flag +" "+i);
+            
             int ans =index;
             for(int j= index;j>0;j--){
                 if(arr.get(j)-arr.get(j-1)==1){
                     ans= j-1;
                     continue;
                 }else{
-                    System.out.println(index +" "+ans +" FLAG- INSIDE "+flag);
+                    
                     return arr.get(j);
                 }
             }
             
-            System.out.println(index +" "+ans +" FLAG "+flag);
+            
             return arr.get(ans);
         }
     }
@@ -92,7 +90,7 @@ class Solution {
                     s=m+1;
                 }
             }
-        // System.out.println(arr +" INSIDE BS "+ans +" "+i);
+        
         return ans;
     }
     
