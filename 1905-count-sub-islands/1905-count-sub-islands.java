@@ -11,7 +11,7 @@ class Solution {
             for(int j=0;j<m;j++){
                 if(grid1[i][j]==grid2[i][j] && vis[i][j]==0 && grid2[i][j]==1){
                   if(check(grid1,grid2,i,j)){
-                      System.out.println("Hi"+i+" "+j);
+                      
                       c++;
                   }       
                     
