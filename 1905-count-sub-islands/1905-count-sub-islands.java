@@ -1,15 +1,17 @@
 class Solution {
     int n , m; 
-    
+    int[][] vis;
+    int[] dr = {-1,0,1,0}, dc = {0,1,0,-1};
     public int countSubIslands(int[][] grid1, int[][] grid2) {
         n = grid1.length;
         m = grid1[0].length;
-        
+        vis= new int[n][m];
         int c=0;
-        for (int i = 0; i < grid1.length; i++){
-            for (int j = 0; j < grid1[0].length; j++){
-                if(grid2[i][j]==1 ){
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(grid1[i][j]==grid2[i][j] && vis[i][j]==0 && grid2[i][j]==1){
                   if(check(grid1,grid2,i,j)){
+                      System.out.println("Hi"+i+" "+j);
                       c++;
                   }       
                     
@@ -17,59 +19,47 @@ class Solution {
             }
             
         }
-       
         return c;         
     }
     public boolean  check(int[][] g1, int[][]g2, int i, int j){
-        if(i>=n || i<0 || j>=m  || j<0 || g2[i][j]==2 || g2[i][j]==0) return true;
+        vis[i][j]=1;
+        // if(g1[i][j]==0 && g2[i][j]==1) return false;
+        boolean f= true;
+        for(int k=0;k<4;k++){
+            int x= i +dr[k];
+            int y= j +dc[k];
+            if(x>=0 && x<n && y>=0 && y<m && vis[x][y]==0){
+               
+                if(g2[x][y]==1 && g1[x][y]==0){
+                    f=false;
+                    boolean x1= check(g1,g2,x,y);
+                }else if(g1[x][y]==1 && g2[x][y]==1){
+                    boolean x1= check(g1,g2,x,y);
+                    f=f&&x1;
+                }
 
-        if(g2[i][j]==1 && g1[i][j]==0){
-            return false;
+            }       
         }
-        g2[i][j]=2;
-        
-        boolean a= check(g1,g2,i-1,j);
-        boolean b = check(g1,g2,i,j-1);
-        boolean c= check(g1,g2,i+1,j);
-        boolean d = check(g1,g2,i,j+1);
-        return a && b && c && d;
+        if(f==false) return false; 
+        return true;
         
     }
     
 }
 
-// class Solution {
-//     public int countSubIslands(int[][] grid1, int[][] grid2) {
-//         if (grid1 == null || grid2 == null) return 0;
+// 1 0
+// Hi1 0
+// 3 1
+// 3 3
+// 4 0
+// Hi4 0
+// 4 4
+// Hi4 4
+// [0, 0, 0, 0, 0]
+// [1, 1, 1, 1, 1]
+// [0, 0, 0, 0, 0]
+// [0, 1, 0, 1, 0]
+// [1, 0, 0, 0, 1]
 
-//         int res = 0;
 
-//         for (int i = 0; i < grid1.length; i++){
-//             for (int j = 0; j < grid1[0].length; j++){
-//                 if (grid2[i][j] == 1){
-//                     if (dfs(grid1, grid2, i, j))
-//                         res++;
-//                 }
-//             }
-//         }
-
-//         return res;
-//     }
-
-//     private boolean dfs (int[][] grid1, int[][] grid2, int x, int y){
-//         if (x < 0 || y < 0 || x >= grid1.length || y >= grid1[0].length || grid2[x][y] == 2 || grid2[x][y] == 0)
-//             return true;
-        
-//         if (grid1[x][y] == 0 && grid2[x][y] == 1)
-//             return false;
-
-//         grid2[x][y] = 2;
-
-//         boolean up = dfs(grid1, grid2, x-1, y);
-//         boolean left = dfs(grid1, grid2, x, y-1);
-//         boolean right = dfs(grid1, grid2, x, y+1);
-//         boolean down = dfs(grid1, grid2, x+1, y);
-
-//         return up && left && right && down;
-//     }
-// }       
+       
